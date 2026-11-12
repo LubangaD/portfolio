@@ -41,18 +41,19 @@ main:focus { outline: none; }
 .case-row__title { margin-top: var(--s-2); text-wrap: balance; }
 .case-row p { max-width: 68ch; }
 
-/* ---------------------------------------------------------------- the inner pages
-   They flow at their own length (the home page keeps the kit's one section a screen): the first section
-   starts under the fixed bar, and each later one opens on a rule. The weight (html main.page-flow) is
-   above the kit's own section rules, whatever order the stylesheets load in. */
-html main.page-flow > :is(section, .section) {
-  --flow: clamp(56px, 5vw + 24px, 112px);
+/* ---------------------------------------------------------------- sections at their own length
+   Every page's sections flow at their own height (no section is stretched to a whole screen, so a short one
+   leaves no empty screen under it); only the home page's hero stays one screen. The first section starts
+   under the fixed bar, and each later one opens on a rule. The weight (html main.page-flow) is above the
+   kit's own section rules, whatever order the stylesheets load in. */
+html main.page-flow > :is(section, .section):not(.hero) {
+  --flow: clamp(40px, 3vw + 24px, 72px);
   height: auto; min-height: 0; padding: 0 0 var(--flow);
 }
-html main.page-flow > :is(section, .section) > :is(.wrap, .container) { height: auto; }
-html main.page-flow > :is(section, .section):first-child { padding-top: calc(var(--nav) + var(--hgap) + var(--s-6)); }
+html main.page-flow > :is(section, .section):not(.hero) > :is(.wrap, .container) { height: auto; }
+html main.page-flow > :is(section, .section):not(.hero):first-child { padding-top: calc(var(--nav) + var(--hgap) + var(--s-6)); }
 html main.page-flow > :is(section, .section) + :is(section, .section) > .wrap { border-top: 1px solid var(--line); padding-top: var(--flow); }
-html main.page-flow > :is(section, .section):last-child { padding-bottom: calc(var(--flow) * 1.25); }
+html main.page-flow > :is(section, .section):not(.hero):last-child { padding-bottom: calc(var(--flow) * 1.25); }
 .page-head .section-head { max-width: 860px; margin-bottom: 0; }
 .page-head h1 { text-wrap: balance; }
 
