@@ -234,5 +234,5 @@ This portfolio is created for Derrick Lubanga. Feel free to use as inspiration f
 For questions or issues with the portfolio:
 - Email: lubanga.derrickn@gmail.com
 - GitHub: https://github.com/LubangaD
-- LinkedIn: https://linkedin.com/in/lubanga99
+- LinkedIn: https://www.linkedin.com/in/lubangaderrick/
 
