@@ -179,7 +179,6 @@ export const caseStudies = [
     // TODO(Derrick): the thesis abstract, measured findings and the thesis PDF (it would go in public/ and in research.thesisFile).
     lessons: null,
     links: { code: 'https://github.com/LubangaD/mythesis', demo: 'https://avenuehealthcaretool.streamlit.app/' },
-    image: { src: '/assets/img/photo-f177726226-960.jpg', alt: 'Shelves of labelled medicine jars in an old pharmacy', standIn: true },
     related: 'hospital-review-intelligence',
   },
   {
@@ -230,7 +229,6 @@ export const caseStudies = [
     tools: ['Apache Kafka', 'Spark Streaming', 'PostgreSQL', 'Docker', 'Power BI'],
     scopeNote: 'No uptime or production-impact figures are claimed.',
     lessons: null, links: { code: 'https://github.com/LubangaD/lorowandatapipiline' },
-    image: { src: '/assets/img/photo-f85085759-960.jpg', alt: 'A rain gauge on a weather station mast', standIn: true },
     related: 'kenya-livestock-masterplan',
   },
   {
@@ -245,7 +243,6 @@ export const caseStudies = [
     tools: ['NLP', 'spaCy', 'NLTK', 'BERT'],
     scopeNote: 'No performance metrics or clinical outcomes are claimed.',
     lessons: null, links: {},
-    image: { src: '/assets/img/photo-f104570836-960.jpg', alt: 'Hospital beds along the wall of an empty ward', standIn: true },
     related: 'abc-ven-hospital-inventory-research',
   },
   {

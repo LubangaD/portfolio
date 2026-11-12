@@ -30,7 +30,6 @@ const Links = () => (
         <a href={profile.links.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub (opens in a new tab)"><img src="/assets/icons/github.svg" alt="" width="20" height="20" /></a>
         <a href={profile.links.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn (opens in a new tab)"><img src="/assets/icons/linkedin.svg" alt="" width="20" height="20" /></a>
       </div>
-      <a className="credits" href="/credits.html">Photographs via Wikimedia Commons</a>
     </div>
   </div>
 );
@@ -72,6 +71,12 @@ const SiteFooter = ({ close = true }) => {
               data-source="stand-in"
               data-subject="Nairobi"
             />
+            {/* CC BY-SA 4.0 requires the author and the licence where the photo is shown: one small line on it */}
+            <small className="close__credit">
+              Photo: <a href="https://commons.wikimedia.org/wiki/File:Nairobi_City_County_Skyline.jpg" target="_blank" rel="noopener noreferrer">Antony Trivet</a>
+              {' · '}
+              <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>
+            </small>
           </div>
         </div>
         <Links />
