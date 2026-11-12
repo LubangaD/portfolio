@@ -14,6 +14,10 @@ A professional full-stack portfolio website showcasing expertise in data science
 2. **Access the Portfolio**:
    Open http://localhost:5001 in your browser
 
+   The dev server only accepts connections from this machine, with the Flask debugger on.
+   To open it from another device on your network, start it with `HOST=0.0.0.0`; the
+   debugger is then switched off, because anyone who can reach it could run code.
+
 ## Features
 
 - 🎨 Modern dark theme design
@@ -32,9 +36,23 @@ A professional full-stack portfolio website showcasing expertise in data science
 
 ## Project Management
 
+### Admin access
+Reading projects is public. Creating, updating and deleting projects, and every
+`/api/users` route, need an admin token. Set it in the environment before starting
+the backend (use a long random value, and set the same variable on your host when deploying):
+
+```bash
+export ADMIN_TOKEN="$(python -c 'import secrets; print(secrets.token_urlsafe(32))')"
+```
+
+If `ADMIN_TOKEN` is not set, those routes return `403`. Requests without the right
+token return `401`. You can also manage projects with `python seed_projects.py`,
+which writes to the database directly and updates existing projects by title.
+
 ### Add New Projects via API:
 ```bash
 curl -X POST http://localhost:5001/api/projects \
+  -H "Authorization: Bearer $ADMIN_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "title": "Your Project",

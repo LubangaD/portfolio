@@ -8,6 +8,11 @@ __pycache__/
 *.db
 instance/
 .env
+# local env files hold real keys (Supabase secret key): keep them out; .env.example lists the names only
+.env.*
+!.env.example
+# the Vercel CLI's local project link
+.vercel/
 venv/
 .venv/
 .envrc

@@ -33,15 +33,23 @@ def serve(path):
     if static_folder_path is None:
             return "Static folder not configured", 404
 
-    if path != "" and os.path.exists(os.path.join(static_folder_path, path)):
+    full_path = os.path.join(static_folder_path, path)
+    if path != "" and os.path.isfile(full_path):
         return send_from_directory(static_folder_path, path)
+    # a page route (/about, /work/<slug>): the build writes each one as <route>/index.html with its own meta
+    if path != "" and os.path.isfile(os.path.join(full_path, 'index.html')):
+        return send_from_directory(full_path, 'index.html')
     else:
         index_path = os.path.join(static_folder_path, 'index.html')
         if os.path.exists(index_path):
-            return send_from_directory(static_folder_path, 'index.html')
+            # every real page has its own built file, so any other path is a 404: the app still loads
+            # and shows its not-found page, but crawlers get the right status
+            return send_from_directory(static_folder_path, 'index.html'), (200 if path == "" else 404)
         else:
             return "index.html not found", 404
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    # Same safety rules as run_backend.py: loopback by default, debugger only on loopback.
+    host = os.environ.get('HOST', '127.0.0.1')
+    app.run(host=host, port=5000, debug=host in ('127.0.0.1', 'localhost', '::1'))

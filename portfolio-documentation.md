@@ -89,6 +89,11 @@ derrick-portfolio/
 - `DELETE /api/projects/{id}` - Delete a project
 - `GET /api/projects/categories` - Get all project categories
 
+`POST`, `PUT` and `DELETE` (and all `/api/users` routes) require the
+`ADMIN_TOKEN` environment variable to be set on the server and the request to send
+`Authorization: Bearer <token>`. Without `ADMIN_TOKEN` they return `403`; with a
+missing or wrong token they return `401`.
+
 ### Query Parameters
 - `category`: Filter projects by category
 - `featured`: Filter featured projects (true/false)
@@ -123,8 +128,10 @@ Access the full application at: http://localhost:5001
 ## Adding New Projects
 
 ### Via API (Programmatic)
+Requires `ADMIN_TOKEN` to be set on the server (see API Endpoints above).
 ```bash
 curl -X POST http://localhost:5001/api/projects \
+  -H "Authorization: Bearer $ADMIN_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "title": "New Project",
@@ -137,11 +144,9 @@ curl -X POST http://localhost:5001/api/projects \
   }'
 ```
 
-### Via Web Interface
-1. Navigate to the Projects section
-2. Click "Add Project" button
-3. Fill in the project details
-4. Submit the form
+### Via Seed Script
+Edit the project list in `portfolio-backend/seed_projects.py` and run
+`python seed_projects.py`. New titles are added and existing ones are updated in place.
 
 ## Customization
 
@@ -229,5 +234,5 @@ This portfolio is created for Derrick Lubanga. Feel free to use as inspiration f
 For questions or issues with the portfolio:
 - Email: lubanga.derrickn@gmail.com
 - GitHub: https://github.com/LubangaD
-- LinkedIn: https://linkedin.com/in/lubanga99
+- LinkedIn: https://www.linkedin.com/in/lubangaderrick/
 

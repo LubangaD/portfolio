@@ -1,7 +1,17 @@
 from flask import Blueprint, jsonify, request
 from src.models.user import User, db
+from src.auth import admin_auth_error
 
 user_bp = Blueprint('user', __name__)
+
+
+@user_bp.before_request
+def require_admin_for_users():
+    # These routes read and change account data (including emails), so every one is admin-only
+    if request.method == 'OPTIONS':
+        return None
+    return admin_auth_error()
+
 
 @user_bp.route('/users', methods=['GET'])
 def get_users():

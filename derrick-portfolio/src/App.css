@@ -1,169 +1,200 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+/* Page CSS: only what the design kit leaves to the site (system.css and the kit's files do the rest). */
 
-@custom-variant dark (&:is(.dark *));
+/* React's mount point takes no box, so the header, main and footer lay out as the body's own children */
+#root { display: contents; }
+main:focus { outline: none; }
 
-@theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+/* ---------------------------------------------------------------- the bar
+   a phone's bar holds the name and the menu only (the page's own buttons carry the action); from 1024 to
+   1279 the seven links need the room, so the action waits for 1280 (Contact is one of the links) */
+@media (max-width: 639px) {
+  header.nav:not(.is-open) .nav__actions { display: none; }
+  header.nav:not(.is-open) .nav__actions + .nav__toggle { margin-left: auto; }
+}
+@media (min-width: 1024px) and (max-width: 1279px) {
+  header.nav .nav__actions { display: none; }
 }
 
-:root {
-  --radius: 0.625rem;
-  /* Dark theme portfolio colors */
-  --background: #0f0f23;
-  --foreground: #e5e5e5;
-  --card: #1a1a2e;
-  --card-foreground: #e5e5e5;
-  --popover: #1a1a2e;
-  --popover-foreground: #e5e5e5;
-  --primary: #00d4ff;
-  --primary-foreground: #0f0f23;
-  --secondary: #16213e;
-  --secondary-foreground: #e5e5e5;
-  --muted: #16213e;
-  --muted-foreground: #a0a0a0;
-  --accent: #00d4ff;
-  --accent-foreground: #0f0f23;
-  --destructive: #ff4757;
-  --border: #2c2c54;
-  --input: #2c2c54;
-  --ring: #00d4ff;
-  --chart-1: #00d4ff;
-  --chart-2: #00ff88;
-  --chart-3: #ff6b6b;
-  --chart-4: #feca57;
-  --chart-5: #ff9ff3;
-  --sidebar: #1a1a2e;
-  --sidebar-foreground: #e5e5e5;
-  --sidebar-primary: #00d4ff;
-  --sidebar-primary-foreground: #0f0f23;
-  --sidebar-accent: #16213e;
-  --sidebar-accent-foreground: #e5e5e5;
-  --sidebar-border: #2c2c54;
-  --sidebar-ring: #00d4ff;
+/* ---------------------------------------------------------------- shared */
+.section-num { font-family: var(--font-text); color: var(--muted); font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
+.section-num__n { color: var(--accent); font-weight: 600; }
+.pills { display: flex; flex-wrap: wrap; gap: var(--s-2); list-style: none; padding: 0; margin: 0; }
+.pills a.pill { text-decoration: none; }
+.pills a.pill:hover { border-color: var(--action); color: var(--action); }
+.link-row { display: flex; flex-wrap: wrap; gap: var(--s-3) var(--s-6); }
+.link-list { list-style: none; padding: 0; display: grid; gap: var(--s-3); }
+.workflow, .workflow > .dg { min-width: 0; max-width: 100%; }
+
+/* a case study as a card: the whole card is one link */
+.case-card { display: flex; flex-direction: column; gap: var(--s-3); height: 100%; color: inherit; text-decoration: none; }
+.case-card__type { color: var(--muted); }
+.case-card > h3 { text-wrap: balance; }
+.case-card > p { color: var(--muted); }
+.case-card__more { margin-top: auto; padding-top: var(--s-3); display: inline-flex; align-items: center; gap: var(--s-2); font-weight: 500; color: var(--action); }
+.case-card:hover .case-card__more { text-decoration: underline; text-underline-offset: 3px; }
+.case-card:focus-visible { outline: 2px solid var(--action); outline-offset: 3px; }
+
+/* a numbered row: the label on the left, the words on the right, a rule between rows */
+.case-row { padding-block: var(--s-7); border-top: 1px solid var(--line); row-gap: var(--s-4); }
+.case-row:first-child { border-top: 0; padding-top: 0; }
+.case-row:last-child { padding-bottom: 0; }
+.case-row__title { margin-top: var(--s-2); text-wrap: balance; }
+.case-row p { max-width: 68ch; }
+
+/* ---------------------------------------------------------------- the inner pages
+   They flow at their own length (the home page keeps the kit's one section a screen): the first section
+   starts under the fixed bar, and each later one opens on a rule. The weight (html main.page-flow) is
+   above the kit's own section rules, whatever order the stylesheets load in. */
+html main.page-flow > :is(section, .section) {
+  --flow: clamp(56px, 5vw + 24px, 112px);
+  height: auto; min-height: 0; padding: 0 0 var(--flow);
+}
+html main.page-flow > :is(section, .section) > :is(.wrap, .container) { height: auto; }
+html main.page-flow > :is(section, .section):first-child { padding-top: calc(var(--nav) + var(--hgap) + var(--s-6)); }
+html main.page-flow > :is(section, .section) + :is(section, .section) > .wrap { border-top: 1px solid var(--line); padding-top: var(--flow); }
+html main.page-flow > :is(section, .section):last-child { padding-bottom: calc(var(--flow) * 1.25); }
+.page-head .section-head { max-width: 860px; margin-bottom: 0; }
+.page-head h1 { text-wrap: balance; }
+
+/* ---------------------------------------------------------------- home */
+.hero__eyebrow { color: var(--muted); margin-bottom: var(--s-4); }
+.hero__where { margin-top: var(--s-4); color: var(--muted); font-size: var(--t-small); }
+.hero__cv { display: inline-block; margin-top: var(--s-4); font-size: var(--t-small); }
+/* the verified figure, under the buttons */
+.hero__metric-line { margin-top: var(--s-6); padding-top: var(--s-4); border-top: 1px solid var(--line); max-width: 46ch; font-size: var(--t-small); line-height: 1.5; }
+.hero__metric-line strong { font-family: var(--font-display); font-size: 28px; font-weight: 500; letter-spacing: -0.02em; margin-right: var(--s-1); }
+/* the portrait plain: the kit's box keeps sizing the hero, but without its ground, corners or clip, and the
+   cut-out stands whole on the hero's foot */
+.hero__media.hero__media--plain { background: none; border-radius: 0; overflow: visible; }
+.hero__media.hero__media--plain > img { object-fit: contain; object-position: 50% 100%; }
+/* stacked (tablet and phone) the box is wide and short: the portrait shows from the top down inside it instead
+   of a small full-length figure; the box keeps the kit's height on a tablet (the hero is one screen there) */
+@media (max-width: 1023px) {
+  .hero__media.hero__media--plain { overflow: hidden; }
+  .hero__media.hero__media--plain > img { object-fit: cover; object-position: 50% 0; }
+}
+/* a tablet stacks the words over the portrait: the hero grows past one screen when they need it (the kit does
+   the same on a phone), so the portrait never lies over the next section */
+@media (min-width: 640px) and (max-width: 1023px) {
+  html main > .hero.hero--split { height: auto; min-height: 100vh; min-height: 100svh; }
+  .hero__media.hero__media--plain { min-height: 380px; }
+}
+/* a short desktop screen (1024x768): the words beside the portrait can need more than one screen, so the hero
+   grows rather than run into the next section; at 1440x900 it stays exactly one screen */
+@media (min-width: 1024px) {
+  html main > .hero.hero--split { height: auto; min-height: 100vh; min-height: 100svh; }
+}
+@media (max-width: 639px) {
+  .hero__media.hero__media--plain { min-height: 400px; }
+  .hero__metric-line strong { font-size: 24px; }
+}
+.orgs__head { margin-bottom: var(--s-5); }
+.orgs .rows__value { text-align: right; }
+.home-more { align-self: flex-start; margin-top: var(--s-7); }
+.home-caps { list-style: none; padding: 0; row-gap: var(--s-7); }
+.home-caps h3 { margin-bottom: var(--s-2); }
+.home-research__visual, .research__visual { --p-h: 420px; }
+@media (min-width: 640px) and (max-width: 1023px) {
+  .home-caps > li { grid-column: auto / span 6; }
+}
+@media (max-width: 639px) {
+  .home-research__visual, .research__visual { --p-h: 300px; }
+  .orgs .rows__value { text-align: left; }
+  .orgs > li { grid-template-columns: minmax(0, 1fr); }
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground font-sans;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-  }
-  
-  html {
-    scroll-behavior: smooth;
-  }
+/* ---------------------------------------------------------------- about */
+.about__text > p:not(.t-lead, .section-num) { max-width: 64ch; }
+.about__motto { font-family: var(--font-display); font-size: clamp(22px, 1vw + 16px, 28px); line-height: 1.25; letter-spacing: -0.01em; color: var(--accent); }
+.about__langs { margin-top: var(--s-6); color: var(--muted); }
+.about__photo { display: block; width: 100%; height: auto; max-width: 400px; margin-inline: auto; }
+.timeline { list-style: none; padding: 0; margin: 0; }
+.timeline__row { padding-block: var(--s-7); border-top: 1px solid var(--line); row-gap: var(--s-3); }
+.timeline__row:first-child { border-top: 0; padding-top: 0; }
+.timeline__row:last-child { padding-bottom: 0; }
+.car { display: grid; gap: var(--s-3); margin: 0; }
+.car > div { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: var(--s-4); }
+.car dt { color: var(--muted); font-size: var(--t-small); font-weight: 500; padding-top: 2px; }
+.car dd { margin: 0; max-width: 64ch; }
+@media (max-width: 1023px) { .about__portrait { max-width: 360px; } }
+@media (max-width: 639px) { .car > div { grid-template-columns: minmax(0, 1fr); gap: var(--s-1); } }
+
+/* ---------------------------------------------------------------- work and the case study */
+.work__jump { margin-top: var(--s-6); }
+.work__grid { row-gap: var(--gutter); }
+@media (min-width: 640px) and (max-width: 1023px) { .work__grid > .card { grid-column: auto / span 6; } }
+.case__back { display: inline-flex; gap: var(--s-2); margin-bottom: var(--s-6); font-size: var(--t-small); font-weight: 500; color: var(--muted); text-decoration: none; }
+.case__back::before { content: "\2190"; }
+.case__back:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
+.case__title { font-size: clamp(32px, 2.2vw + 20px, 56px); text-wrap: balance; }
+.case__facts .rows__value { text-align: right; }
+.case__figure { margin: 0; display: grid; gap: var(--s-3); }
+.case__figure .frame { --ratio: 66%; }
+.case-row__wide { margin-top: var(--s-5); }
+/* a vertical workflow beside the approach: words left, the steps down a narrow panel right */
+.case-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 300px); gap: var(--s-6); align-items: start; }
+@media (max-width: 1023px) {
+  .case-split { grid-template-columns: minmax(0, 1fr); }
+  .case__diagram--side { max-width: 440px; }
+}
+.case__diagram { --p-h: 340px; }
+.case__facts { margin-top: var(--s-4); }
+.case__more { display: inline-block; margin-top: var(--s-7); }
+.case__next h2 { text-wrap: balance; }
+@media (max-width: 1023px) { .case__figure { margin-top: var(--s-6); } }
+@media (max-width: 639px) { .case__diagram { --p-h: 380px; } .case__facts .rows__value { text-align: left; } }
+
+/* ---------------------------------------------------------------- research */
+.research__title { font-size: clamp(28px, 1.4vw + 18px, 40px); text-wrap: balance; }
+.themes { list-style: none; padding: 0; row-gap: var(--s-6); }
+.themes h3 { margin-bottom: var(--s-2); }
+.research__cta .section-head--split { align-items: center; }
+.research__cta h2 { max-width: 22ch; text-wrap: balance; }
+
+/* ---------------------------------------------------------------- services */
+.services { row-gap: var(--gutter); }
+.service { display: flex; flex-direction: column; gap: var(--s-4); }
+.service h3 { text-wrap: balance; }
+.service__time { margin-top: auto; padding-top: var(--s-3); }
+.card--plan.service .btn { width: auto; align-self: flex-start; }
+.services__note { margin-top: var(--s-6); max-width: 72ch; }
+@media (min-width: 640px) and (max-width: 1023px) { .services > .service { grid-column: auto / span 6; } }
+
+/* ---------------------------------------------------------------- contact */
+.contact__rows .rows__value { overflow-wrap: anywhere; text-align: right; }
+.contact-form {
+  --error: color-mix(in oklab, #d92d20 72%, var(--ink));
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-4); align-content: start;
+  padding: var(--s-6); border-radius: var(--r-lg); background: var(--surface);
+}
+.contact-form > :is(.field--full, .btn-row, p, h2) { grid-column: 1 / -1; }
+.contact-form textarea { min-height: 200px; }
+.contact-form__status:empty { display: none; }
+.contact-form__status { font-size: var(--t-small); line-height: 1.5; }
+.contact-form__status.is-sent { color: var(--accent); font-weight: 500; }
+.contact-form__status.is-failed, .contact-form__status.is-invalid { color: var(--error); font-weight: 500; }
+.contact-form button[aria-busy="true"] { cursor: progress; }
+@media (max-width: 1023px) { .contact-form { margin-top: var(--s-6); } }
+@media (max-width: 639px) {
+  .contact-form { grid-template-columns: minmax(0, 1fr); padding: var(--s-5); }
+  .contact__rows .rows__value { text-align: left; }
 }
 
-@layer components {
-  .gradient-text {
-    @apply bg-gradient-to-r from-primary to-chart-2 bg-clip-text text-transparent;
-  }
-  
-  .hero-gradient {
-    background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
-  }
-  
-  .particle-bg {
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .particle-bg::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-      radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(0, 255, 136, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 40% 80%, rgba(255, 107, 107, 0.1) 0%, transparent 50%);
-    animation: float 20s ease-in-out infinite;
-  }
-  
-  @keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    33% { transform: translateY(-20px) rotate(1deg); }
-    66% { transform: translateY(10px) rotate(-1deg); }
-  }
-  
-  .typewriter {
-    overflow: hidden;
-    border-right: 2px solid #00d4ff;
-    white-space: nowrap;
-    animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
-  }
-  
-  @keyframes typing {
-    from { width: 0; }
-    to { width: 100%; }
-  }
-  
-  @keyframes blink-caret {
-    from, to { border-color: transparent; }
-    50% { border-color: #00d4ff; }
-  }
-  
-  .skill-bar {
-    @apply relative overflow-hidden rounded-full bg-muted h-2;
-  }
-  
-  .skill-progress {
-    @apply h-full bg-gradient-to-r from-primary to-chart-2 rounded-full transition-all duration-1000 ease-out;
-  }
-  
-  .project-card {
-    @apply bg-card/80 backdrop-blur-sm border border-border/50 rounded-xl p-6 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-primary/20;
-  }
-  
-  .nav-link {
-    @apply relative text-muted-foreground hover:text-foreground transition-colors duration-200;
-  }
-  
-  .nav-link::after {
-    content: '';
-    @apply absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300;
-  }
-  
-  .nav-link:hover::after {
-    @apply w-full;
-  }
+/* ---------------------------------------------------------------- the footer */
+.footer__motto { color: var(--muted); max-width: 32ch; }
+/* the footer photo's credit: one small line in its corner (its licence asks for the author and the licence) */
+.close__media .close__credit {
+  position: absolute; right: var(--s-3); bottom: var(--s-2); z-index: 1;
+  font-size: 11px; line-height: 1.4; color: rgba(255, 255, 255, 0.82); text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+.close__media .close__credit a { color: inherit; text-decoration: underline; text-decoration-color: rgba(255, 255, 255, 0.4); text-underline-offset: 2px; }
+.close__media .close__credit a:hover { color: #fff; }
+/* the GitHub mark is drawn in black: on the dark footer it takes the footer's light ink */
+.footer--dark .socials img[src$="github.svg"] { filter: invert(1); }
+.site-footer { padding-top: var(--section-band); }
+
+/* ---------------------------------------------------------------- reduced motion: the kit stills its own
+   motion; the page adds none beyond the card link's underline */
+@media (prefers-reduced-motion: reduce) {
+  .case-card, .case-card * { transition: none !important; }
 }
