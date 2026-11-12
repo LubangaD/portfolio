@@ -61,10 +61,12 @@ const SiteFooter = ({ close = true }) => {
           </div>
           <div className="close__media">
             <img
-              src="/assets/img/photo-f106138476.jpg"
-              srcSet="/assets/img/photo-f106138476-500.jpg 500w, /assets/img/photo-f106138476-960.jpg 960w, /assets/img/photo-f106138476.jpg 1280w"
+              src="/assets/img/photo-f163119220.jpg"
+              srcSet="/assets/img/photo-f163119220-500.jpg 500w, /assets/img/photo-f163119220-960.jpg 960w, /assets/img/photo-f163119220.jpg 1600w"
               sizes="(max-width: 639px) 230vw, 100vw"
-              alt="The Nairobi skyline seen across the grassland of Nairobi National Park"
+              alt="The Nairobi skyline at sunset, the Kenyatta International Convention Centre among its towers"
+              // the band is a thin strip: aim it at the towers and the sunset glow, not the empty sky above
+              style={{ '--pos': '50% 62%' }}
               loading="lazy"
               decoding="async"
               data-source="stand-in"

@@ -286,6 +286,20 @@
    "licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
    "page": "https://commons.wikimedia.org/wiki/File:Stevenson_screen_interior.JPG",
    "source": "Wikimedia Commons"
+  },
+  {
+   "file": "photo-f163119220-960.jpg",
+   "files": [
+    "photo-f163119220-500.jpg",
+    "photo-f163119220-960.jpg"
+   ],
+   "id": "f163119220",
+   "alt": "Nairobi City County Skyline",
+   "by": "Antony Trivet",
+   "licence": "CC BY-SA 4.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+   "page": "https://commons.wikimedia.org/wiki/File:Nairobi_City_County_Skyline.jpg",
+   "source": "Wikimedia Commons"
   }
  ]
 }
