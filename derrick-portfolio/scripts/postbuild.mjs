@@ -22,10 +22,13 @@ function render(path, page) {
     head.push(
       `<link rel="canonical" href="${attr(abs(path))}">`,
       `<meta property="og:url" content="${attr(abs(path))}">`,
-      `<meta property="og:image" content="${attr(abs(profile.portrait))}">`,
+      `<meta property="og:image" content="${attr(abs(profile.shareImage || profile.portrait))}">`,
+      `<meta property="og:image:width" content="1200">`,
+      `<meta property="og:image:height" content="630">`,
+      `<meta property="og:image:alt" content="${attr(`${profile.name}, ${profile.title}`)}">`,
     );
   }
-  return template
+  return (site ? template.replace(/(<meta name="twitter:card" content=")[^"]*(")/, '$1summary_large_image$2') : template)
     .replace(/<title>[^<]*<\/title>/, `<title>${text(page.title)}</title>`)
     .replace(/(<meta name="description" content=")[^"]*(")/, `$1${attr(page.description)}$2`)
     .replace(/(<meta property="og:title" content=")[^"]*(")/, `$1${attr(page.title)}$2`)
