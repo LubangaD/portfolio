@@ -24,7 +24,8 @@ export function applyMeta(route) {
 
   const site = profile.siteUrl;
   setMeta('property', 'og:url', site ? new URL(route.path, site).href : null);
-  setMeta('property', 'og:image', site ? new URL(profile.portrait, site).href : null);
+  setMeta('property', 'og:image', site ? new URL(profile.shareImage || profile.portrait, site).href : null);
+  setMeta('name', 'twitter:card', site ? 'summary_large_image' : 'summary');
   let canonical = document.head.querySelector('link[rel="canonical"]');
   if (site && route.key !== 'notfound') {
     if (!canonical) {

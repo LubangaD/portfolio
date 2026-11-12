@@ -22,15 +22,17 @@ export const profile = {
     linkedin: 'https://www.linkedin.com/in/lubangaderrick/',
     github: 'https://github.com/LubangaD',
   },
-  // the flattened portrait (share image and structured data); the pages show the transparent derrick-cutout.webp
+  // the flattened portrait (structured data); the pages show the transparent derrick-cutout.webp
   portrait: '/assets/img/derrick-portrait.webp',
+  // the link-preview picture (1200x630 JPEG, what LinkedIn, WhatsApp and X show when the site is shared)
+  shareImage: '/share.jpg',
   // Derrick's resume (November 2026, with the Stahili Commerce role)
   cvUrl: '/Derrick-Lubanga-Data-Scientist-CV.pdf',
   // TODO(Derrick): a booking link (Calendly, Cal.com). While null the site says "Discuss an Opportunity", never "Book a Discovery Call".
   calendarUrl: null,
-  // TODO(Derrick): the production domain once this site is deployed there. The resume lists https://de-lubanga.onrender.com/
-  // as the portfolio. While null no sitemap, robots.txt or canonical URL is generated.
-  siteUrl: null,
+  // the production address (Vercel). Canonical links, og:url and og:image, sitemap.xml and robots.txt are built
+  // from it; change it here if the site moves to its own domain (for example derricklubanga.com).
+  siteUrl: 'https://derricklubanga.vercel.app',
   languages: ['English (proficient)', 'Swahili (native)'],
   // TODO(Derrick): genuine testimonials only: { quote, author, title, organisation, photo }. While empty none render.
   testimonials: [],
