@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { WEB3FORMS_ACCESS_KEY } from '../config';
+import { CONTACT_ENDPOINT, WEB3FORMS_ACCESS_KEY } from '../config';
 import { profile } from '../content/site';
 import { ExtLink, SectionLabel } from '../components/site/Bits';
 
@@ -27,9 +27,25 @@ const fromQuery = () => {
   return ENQUIRIES.some((e) => e.value === q) ? q : '';
 };
 
-// The form sends through Web3Forms when an access key is configured, and says it has sent only once
-// Web3Forms confirms it. Without a key it opens the visitor's email app with the enquiry written in,
-// and says plainly that nothing was sent through the website.
+// Web3Forms emails a message to Derrick; it answers success: true only once it has accepted it
+const emailViaWeb3Forms = async ({ subject, type, name, email, message, botcheck }) => {
+  const res = await fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify({ access_key: WEB3FORMS_ACCESS_KEY, subject, from_name: 'Portfolio contact form', name, email, enquiry_type: type, message, botcheck }),
+  });
+  const data = await res.json().catch(() => ({}));
+  return res.ok && data.success === true;
+};
+
+// The form says a message is sent only once it is confirmed:
+//   - with CONTACT_ENDPOINT (Vercel): once /api/contact has stored it in Supabase; Web3Forms, if set up,
+//     also emails a copy, which does not change the answer (the message is already kept)
+//   - with only a Web3Forms key: once Web3Forms has accepted it
+//   - with neither: it opens the visitor's email app with the enquiry written in, and says plainly that
+//     nothing was sent through the website
+const ONLINE = Boolean(CONTACT_ENDPOINT || WEB3FORMS_ACCESS_KEY);
+
 const ContactForm = () => {
   const [values, setValues] = useState({ name: '', email: '', enquiry: fromQuery(), message: '', botcheck: false });
   const [errors, setErrors] = useState({});
@@ -57,7 +73,7 @@ const ContactForm = () => {
     const type = ENQUIRIES.find((x) => x.value === values.enquiry)?.label || 'Enquiry';
     const subject = `Portfolio enquiry: ${type}`;
 
-    if (!WEB3FORMS_ACCESS_KEY) {
+    if (!ONLINE) {
       const body = `${values.message.trim()}\n\nName: ${values.name.trim()}\nEmail: ${values.email.trim()}\nEnquiry type: ${type}`;
       window.location.href = `mailto:${profile.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       setStatus({ state: 'mailto', text: 'Your email app should open with your enquiry ready to send. It has not been sent through this website.' });
@@ -65,23 +81,22 @@ const ContactForm = () => {
     }
 
     setStatus({ state: 'sending', text: 'Sending your message…' });
+    const msg = { name: values.name.trim(), email: values.email.trim(), message: values.message.trim(), botcheck: values.botcheck };
     try {
-      const res = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          access_key: WEB3FORMS_ACCESS_KEY,
-          subject,
-          from_name: 'Portfolio contact form',
-          name: values.name.trim(),
-          email: values.email.trim(),
-          enquiry_type: type,
-          message: values.message.trim(),
-          botcheck: values.botcheck,
-        }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok || data.success !== true) throw new Error(data.message || String(res.status));
+      let confirmed;
+      if (CONTACT_ENDPOINT) {
+        const res = await fetch(CONTACT_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({ ...msg, enquiry: values.enquiry }),
+        });
+        const data = await res.json().catch(() => ({}));
+        confirmed = res.ok && data.success === true;
+        if (confirmed && WEB3FORMS_ACCESS_KEY) emailViaWeb3Forms({ ...msg, subject, type }).catch(() => {});
+      } else {
+        confirmed = await emailViaWeb3Forms({ ...msg, subject, type });
+      }
+      if (!confirmed) throw new Error('not confirmed');
       setValues({ name: '', email: '', enquiry: '', message: '', botcheck: false });
       setStatus({ state: 'sent', text: 'Thank you. Your message has been sent, and I will reply to the email address you gave.' });
     } catch {
@@ -113,11 +128,11 @@ const ContactForm = () => {
         {err('message')}</div>
       <div className="btn-row">
         <button className="btn btn--primary" type="submit" disabled={sending} aria-busy={sending || undefined}>
-          {sending ? 'Sending…' : WEB3FORMS_ACCESS_KEY ? 'Send message' : 'Write it in my email app'}
+          {sending ? 'Sending…' : ONLINE ? 'Send message' : 'Write it in my email app'}
         </button>
       </div>
       <p className={`form__status contact-form__status is-${status.state}`} role="status" aria-live="polite">{status.text}</p>
-      {!WEB3FORMS_ACCESS_KEY && <p className="t-small muted">The form opens your email app with the enquiry written in; you send it from there.</p>}
+      {!ONLINE && <p className="t-small muted">The form opens your email app with the enquiry written in; you send it from there.</p>}
     </form>
   );
 };

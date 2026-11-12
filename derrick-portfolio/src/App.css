@@ -79,6 +79,11 @@ html main.page-flow > :is(section, .section):last-child { padding-bottom: calc(v
   html main > .hero.hero--split { height: auto; min-height: 100vh; min-height: 100svh; }
   .hero__media.hero__media--plain { min-height: 380px; }
 }
+/* a short desktop screen (1024x768): the words beside the portrait can need more than one screen, so the hero
+   grows rather than run into the next section; at 1440x900 it stays exactly one screen */
+@media (min-width: 1024px) {
+  html main > .hero.hero--split { height: auto; min-height: 100vh; min-height: 100svh; }
+}
 @media (max-width: 639px) {
   .hero__media.hero__media--plain { min-height: 400px; }
   .hero__metric-line strong { font-size: 24px; }

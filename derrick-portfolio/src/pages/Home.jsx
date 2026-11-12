@@ -14,7 +14,7 @@ const Home = () => (
           <div className="hero__text span-5">
             <p className="t-label hero__eyebrow">{profile.name} · {profile.title}</p>
             <h1 id="hero-h">Turning complex data into decisions leaders can act on.</h1>
-            <p className="hero__lead">I build machine learning models, NLP applications, and reliable data pipelines for healthcare, agriculture, and consumer markets.</p>
+            <p className="hero__lead">I build machine learning models, NLP applications, reliable data pipelines, and custom analytics dashboards in D3, Plotly Dash, and Power BI for healthcare, agriculture, and consumer markets.</p>
             <p className="hero__where">Based in Kenya. Open to remote roles and consulting opportunities worldwide.</p>
             <div className="btn-row">
               <a className="btn btn--primary" href="/work">View My Work<Arrow /></a>

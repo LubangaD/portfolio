@@ -3,7 +3,7 @@
 // structured data goes into every page. sitemap.xml and robots.txt are written only when a production
 // domain is configured (profile.siteUrl in src/content/site.js); without one, neither file exists.
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
-import { pages, personJsonLd, sitemapRoutes } from '../src/content/pages.js';
+import { notFoundPage, pages, personJsonLd, sitemapRoutes } from '../src/content/pages.js';
 import { profile } from '../src/content/site.js';
 
 const dist = new URL('../dist/', import.meta.url);
@@ -40,6 +40,14 @@ for (const [path, page] of Object.entries(pages)) {
   await writeFile(file, render(path, page));
   n++;
 }
+
+// Vercel answers an address with no page with dist/404.html and a 404 status; the app then shows its
+// not-found page. No canonical link or og:url: the page belongs to no address.
+const notFound = render('/', notFoundPage)
+  .replace(/<link rel="canonical"[^>]*>\n?/, '')
+  .replace(/<meta property="og:url"[^>]*>\n?/, '')
+  .replace('</head>', '<meta name="robots" content="noindex">\n</head>');
+await writeFile(new URL('404.html', dist), notFound);
 
 if (site) {
   const urls = sitemapRoutes.map((p) => `  <url><loc>${text(abs(p))}</loc></url>`).join('\n');

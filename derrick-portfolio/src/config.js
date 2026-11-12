@@ -6,4 +6,8 @@
 // While it is empty, the contact form opens the visitor's email app instead and says nothing was sent.
 export const WEB3FORMS_ACCESS_KEY = (import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || '').trim();
 
+// Where the contact form saves messages: on Vercel, /api/contact (api/contact.js stores them in Supabase).
+// Empty locally and on the Flask build, where the form falls back to Web3Forms or the visitor's email app.
+export const CONTACT_ENDPOINT = (import.meta.env.VITE_CONTACT_ENDPOINT || '').trim();
+
 export const CONTACT_EMAIL = 'lubanga.derrickn@gmail.com';
