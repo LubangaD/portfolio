@@ -75,7 +75,7 @@ def seed_projects():
         {
             "title": "Pharmaceutical Inventory ROP model ",
             "description": "Developed a robust Reorder Point (ROP) model for pharmaceutical inventory management, optimizing stock levels and reducing waste. The model integrates real-time data analytics to ensure timely replenishment of critical medications.",
-            "category": "Statiscal Modeling",
+            "category": "Statistical Modeling",
             "technologies": ["Streamlit", "Statistical Model", "ML", "Real-time Analytics", "Python"],
             "github_url": "https://github.com/LubangaD/mythesis.git",
             "demo_url": "https://avenuehealthcaretool.streamlit.app/",
@@ -88,13 +88,22 @@ def seed_projects():
         # Create all tables
         db.create_all()
         
-        # Add new projects
+        # Upsert by title so re-running the seed updates projects instead of duplicating them
+        added = updated = 0
         for project_data in projects_data:
-            project = Project.from_dict(project_data)
-            db.session.add(project)
-        
+            seeded = Project.from_dict(project_data)
+            existing = Project.query.filter_by(title=seeded.title).first()
+            if existing is None:
+                db.session.add(seeded)
+                added += 1
+                continue
+            for field in ('description', 'category', 'technologies', 'github_url',
+                          'demo_url', 'image_url', 'featured'):
+                setattr(existing, field, getattr(seeded, field))
+            updated += 1
+
         db.session.commit()
-        print(f"Successfully seeded {len(projects_data)} projects!")
+        print(f"Seeded projects: {added} added, {updated} updated.")
 
 if __name__ == '__main__':
     seed_projects()

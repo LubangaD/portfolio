@@ -44,4 +44,6 @@ def serve(path):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    # Same safety rules as run_backend.py: loopback by default, debugger only on loopback.
+    host = os.environ.get('HOST', '127.0.0.1')
+    app.run(host=host, port=5000, debug=host in ('127.0.0.1', 'localhost', '::1'))

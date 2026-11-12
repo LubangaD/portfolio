@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from src.models.project import Project
 from src.models.user import db
+from src.auth import require_admin
 import json
 
 project_bp = Blueprint('project', __name__)
@@ -33,6 +34,7 @@ def get_projects():
         }), 500
 
 @project_bp.route('/projects', methods=['POST'])
+@require_admin
 def create_project():
     """Create a new project"""
     try:
@@ -85,6 +87,7 @@ def get_project(project_id):
         }), 500
 
 @project_bp.route('/projects/<int:project_id>', methods=['PUT'])
+@require_admin
 def update_project(project_id):
     """Update a specific project"""
     try:
@@ -130,6 +133,7 @@ def update_project(project_id):
         }), 500
 
 @project_bp.route('/projects/<int:project_id>', methods=['DELETE'])
+@require_admin
 def delete_project(project_id):
     """Delete a specific project"""
     try:

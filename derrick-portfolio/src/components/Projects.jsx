@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Github, ExternalLink, Plus, Edit, Trash2, Filter } from 'lucide-react';
+import { Github, ExternalLink, Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Projects = () => {
@@ -9,7 +9,6 @@ const Projects = () => {
   const [activeFilter, setActiveFilter] = useState('all');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showAddForm, setShowAddForm] = useState(false);
 
   // Fetch projects from backend
   useEffect(() => {
@@ -58,10 +57,6 @@ const Projects = () => {
     }
   };
 
-  const handleAddProject = () => {
-    setShowAddForm(true);
-  };
-
   const ProjectCard = ({ project }) => {
     const getTechColor = (tech) => {
       const colors = {
@@ -87,14 +82,6 @@ const Projects = () => {
                 Featured
               </span>
             )}
-          </div>
-          <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-            <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
-              <Edit className="h-4 w-4" />
-            </Button>
-            <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-destructive">
-              <Trash2 className="h-4 w-4" />
-            </Button>
           </div>
         </div>
 
@@ -212,15 +199,6 @@ const Projects = () => {
               {category === 'all' ? 'All Projects' : category}
             </Button>
           ))}
-          
-          <Button
-            onClick={handleAddProject}
-            variant="outline"
-            className="border-dashed border-primary/50 text-primary hover:bg-primary/10"
-          >
-            <Plus className="h-4 w-4 mr-2" />
-            Add Project
-          </Button>
         </div>
 
         {/* Projects Grid */}
