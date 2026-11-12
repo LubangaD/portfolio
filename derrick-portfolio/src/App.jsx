@@ -42,8 +42,8 @@ function App() {
   return (
     <>
       <SiteNav active={route.nav} />
-      {/* the home page keeps the kit's one-section-a-screen rhythm; the inner pages flow at their own length */}
-      <main id="main" tabIndex={-1} className={route.key === 'home' ? undefined : 'page-flow'}>
+      {/* every page's sections flow at their own length; only the home hero is one screen (App.css) */}
+      <main id="main" tabIndex={-1} className="page-flow">
         <Page caseStudy={route.caseStudy} />
       </main>
       <SiteFooter close={route.key !== 'contact'} />
