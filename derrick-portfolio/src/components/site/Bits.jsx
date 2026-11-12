@@ -22,9 +22,12 @@ export const ExtLink = ({ href, className = 'link', children }) => (
 
 // a workflow from the content file, drawn by the kit's diagram script (assets/diagrams/mount.js).
 // With fx, the panel is the page's one [data-visual] band, on the kit's gradient-mesh ground.
+// data-dg-phone="loop": the data keeps flowing on a phone too (the kit would hold a still frame under 640px);
+// a visitor who asks for reduced motion still gets the still frame, and every diagram has its pause button.
 const FX = '{"relief": 0.2, "tint": 0.5, "calm": 0.75, "calmX": 0.5, "calmY": 0.5}';
 export const Workflow = ({ spec, fx = false, className = '' }) => (
   <div
+    data-dg-phone="loop"
     className={`panel workflow ${className}`.trim()}
     {...(fx ? { 'data-visual': '', 'data-fx': 'gradient-mesh', 'data-fx-seed': '31', 'data-fx-params': FX } : {})}
   >
