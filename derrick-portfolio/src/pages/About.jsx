@@ -1,4 +1,4 @@
-import { caseStudyBySlug, education, experience, profile } from '../content/site';
+import { about, caseStudyBySlug, education, experience, profile } from '../content/site';
 import { Arrow, SectionLabel } from '../components/site/Bits';
 
 const About = () => (
@@ -9,10 +9,8 @@ const About = () => (
           <div className="span-7 stack-5 about__text">
             <SectionLabel n={1}>About</SectionLabel>
             <h1 id="about-h">A little about how I work.</h1>
-            <p className="t-lead">I’m Derrick, a Kenyan data scientist with more than five years of experience across data science, machine learning, analytics, and applied research. I look for the connection between how data is built, what it can reliably show, and the people who need to use it.</p>
-            <p>At Stahili Commerce, I develop a Survey-to-Story pipeline and work with more than 1 million consumer response data points to produce executive-level market reports. The work runs from BigQuery and Dataform into an analytics dashboard with AI-written narratives, and includes migrating legacy SQL logic into modular Dataform and SQLX workflows.</p>
-            <p>My work at iLab Africa includes data validation frameworks for the Kenya Livestock Masterplan, a real-time IoT pipeline, hospital-review analysis, and predictive and forecasting projects. My MSc research examines ABC-VEN inventory optimisation in Kenyan hospitals; measured findings are not yet published here.</p>
-            <p>Accessibility and collaboration matter just as much as the technical system. Through AbleSpeak and earlier work at CNEAT Research Academy, I have contributed to assistive-technology and inclusive-learning work. The SUGAR Network connected my design-thinking collaboration with stakeholders across Africa and Europe.</p>
+            {/* the paragraphs come from the content file, so their tense and years follow the roles below */}
+            {about.map((p, i) => <p key={i} className={i === 0 ? 't-lead' : undefined}>{p}</p>)}
             <p className="about__motto">{profile.motto}</p>
             <div className="btn-row">
               <a className="btn btn--primary" href="/work">Explore my work<Arrow /></a>
